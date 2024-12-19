@@ -71,23 +71,19 @@ const siteConfig: SiteConfig = {
             text: 'Terms',
             href: '/terms'
         },
-        {
-            text: 'Download theme',
-            href: 'https://github.com/JustGoodUI/dante-astro-theme'
-        }
     ],
     socialLinks: [
         {
-            text: 'Dribbble',
-            href: 'https://dribbble.com/'
+            text: 'Github',
+            href: 'https://github.com/EvilGenius1010'
         },
         {
-            text: 'Instagram',
-            href: 'https://instagram.com/'
-        },
-        {
-            text: 'X/Twitter',
+            text: 'X',
             href: 'https://x.com/cheksnbuks10'
+        },
+        {
+            text:'LinkedIn',
+            href:'https://www.linkedin.com/in/harshavardhan-kolhatkar-0b2636258/'
         }
     ],
     hero: {
@@ -105,7 +101,7 @@ const siteConfig: SiteConfig = {
         ]
     },
     subscribe: {
-        title: 'Subscribe to Dante Newsletter',
+        title: `Subscribe to HK's Newsletter`,
         text: 'One update per week. All the latest posts directly in your inbox.',
         formUrl: '#'
     },
