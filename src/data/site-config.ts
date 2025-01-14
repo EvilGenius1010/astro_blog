@@ -1,3 +1,4 @@
+//type definitions for all functions
 export type Image = {
     src: string;
     alt?: string;
@@ -34,9 +35,10 @@ export type SiteConfig = {
     hero?: Hero;
     subscribe?: Subscribe;
     postsPerPage?: number;
-    projectsPerPage?: number;
+    deepdivesPerPage?: number;
 };
 
+//handles all routing
 const siteConfig: SiteConfig = {
     title: '',
     description: 'Documenting My Journey',
@@ -50,12 +52,16 @@ const siteConfig: SiteConfig = {
             href: '/'
         },
         {
-            text: 'Blog',
-            href: '/blog'
+            text: 'DevLogs',
+            href: '/devlogs'
         },
         {
             text: 'Tags',
             href: '/tags'
+        },
+        {
+            text:'Figuring It Out',
+            href:'/figuringitout'
         }
     ],
     footerNavLinks: [
@@ -106,7 +112,7 @@ const siteConfig: SiteConfig = {
         formUrl: '#'
     },
     postsPerPage: 8,
-    projectsPerPage: 8
+    deepdivesPerPage: 8
 };
 
 export default siteConfig;

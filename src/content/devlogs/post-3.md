@@ -1,6 +1,7 @@
 ---
 title: Creating custom plugins in `Obsidian`
 excerpt: This article explores creating custom plugins for Obsidian. The goal is to define a special syntax that allows users to insert snippets into their notes and easily paste the same thing in another page in a same/different vault. It delves into the development process, including utilizing the editorCallback function, attaching event listeners to editor and regular expressions to achieve the desired functionality. The provided code snippet showcases initial attempts at manipulating the editor content.
+isFeatured: true
 publishDate: '1 January 2025'
 tags:
   - Guide

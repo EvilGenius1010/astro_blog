@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+    const deepdives = (await getCollection('figuringitout')).sort(sortItemsByDateDesc); //fetched data from .md files.
+    const deepdiveLength = deepdives.length;
+
+    return deepdives.map((item, index) => ({
+        params: { slug: item.slug }, //as name of file is [slug].astro, this works for that.
+        props: {
+            deepdive: item,
+            prevDeepdive: index + 1 !== deepdiveLength ? deepdives[index + 1] : null,
+            nextDeepdive: index !== 0 ? deepdives[index - 1] : null
+        }
+    }));
+}
+
+type Props = { deepdive: CollectionEntry<'figuringitout'>; nextDeepdive: CollectionEntry<'figuringitout'>; prevDeepdive: CollectionEntry<'figuringitout'> }; //typecasting the props.
+
+const { deepdive, nextDeepdive, prevDeepdive } = Astro.props; //generated from getstaticpaths fn.
+const { title, publishDate, seo } = deepdive.data; //takes things from the article.
+const { Content } = await deepdive.render();
+---
+
+<BaseLayout title={title}>
+    <article class="mb-16 sm:mb-24">
+        <header class="mb-8">
+            <h1 class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight">{title}</h1>
+            <div class="mt-4 text-sm">
+                <FormattedDate date={publishDate} />
+            </div>
+        </header>
+        <div class="max-w-none prose prose-dante sm:prose-lg">
+            <Content />
+        </div>
+    </article>
+</BaseLayout>

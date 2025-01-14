@@ -12,7 +12,7 @@ const seoSchema = z.object({
     pageType: z.enum(['website', 'article']).default('website')
 });
 
-const blog = defineCollection({
+const devlogs = defineCollection({
     schema: z.object({
         title: z.string(),
         excerpt: z.string().optional(),
@@ -31,14 +31,58 @@ const pages = defineCollection({
     })
 });
 
-const projects = defineCollection({
-    schema: z.object({
-        title: z.string(),
-        description: z.string().optional(),
-        publishDate: z.coerce.date(),
-        isFeatured: z.boolean().default(false),
-        seo: seoSchema.optional()
-    })
-});
+// Define a reusable SEO type from the schema
+type SeoType = z.infer<typeof seoSchema>;
 
-export const collections = { blog, pages, projects };
+// Define the TypeScript type for the figuringitout collection schema
+type FiguringItOutSchema = {
+    title: string;
+    parentArticle: string; // Must match one of the devlogs' slugs
+    description: string;
+    publishDate: Date;
+    isFeatured: boolean;
+    seo?: SeoType;
+};
+
+
+const figuringitout = defineCollection({
+    // schema: async ():  Promise<
+    // z.ZodObject<{
+    //     title: z.ZodString;
+    //     // parentArticle: z.ZodEffects<z.ZodString, string, string>;
+    //     description: z.ZodOptional<z.ZodString>;
+    //     publishDate: z.ZodDate;
+    //     isFeatured: z.ZodDefault<z.ZodBoolean>;
+    //     seo: z.ZodOptional<typeof seoSchema>;
+    // }>>=> {
+    //     // Get all devlogs' slugs dynamically
+    //     const devlogEntries = await getCollection('devlogs');
+    //     const devlogSlugs = devlogEntries.map(entry => entry.slug);
+
+    //     // Return the schema
+    //     return z.object({
+    //         title: z.string(),
+    //         parentArticle: z
+    //             .string()
+    //             .refine(
+    //                 (slug) => devlogSlugs.includes(slug),
+    //                 { message: "parentArticle must reference an existing devlogs entry." }
+    //             ),
+    //         description: z.string().optional(),
+    //         publishDate: z.coerce.date(),
+    //         isFeatured: z.boolean().default(false),
+    //         seo: seoSchema.optional()
+    //     });
+    // }
+
+    schema:z.object({
+            title: z.string(),
+            description: z.string().optional(),
+            publishDate: z.coerce.date(),
+            isFeatured: z.boolean().default(false),
+            seo: seoSchema.optional()
+        })
+});
+;
+
+export const collections = { devlogs, pages, figuringitout };

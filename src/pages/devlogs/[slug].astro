@@ -4,12 +4,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import PostPreview from '../../components/PostPreview.astro';
-import Subscribe from '../../components/Subscribe.astro';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
 import { slugify } from '../../utils/common-utils';
 
 export async function getStaticPaths() {
-    const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+    const posts = (await getCollection('devlogs')).sort(sortItemsByDateDesc);
     const postCount = posts.length;
     return posts.map((post, index) => ({
         params: { slug: post.slug },
@@ -21,11 +20,11 @@ export async function getStaticPaths() {
     }));
 }
 
-type Props = { post: CollectionEntry<'blog'>; prevPost: CollectionEntry<'blog'>; nextPost: CollectionEntry<'blog'> };
+type Props = { post: CollectionEntry<'devlogs'>; prevPost: CollectionEntry<'devlogs'>; nextPost: CollectionEntry<'devlogs'> };
 
 const { href } = Astro.url;
 const { post, prevPost, nextPost } = Astro.props;
-const { title, publishDate, updatedDate, excerpt, tags = [], seo } = post.data;
+const { title, publishDate, excerpt, tags = [], seo } = post.data;
 const { Content } = await post.render();
 ---
 
@@ -35,16 +34,6 @@ const { Content } = await post.render();
             <h1 class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight">{title}</h1>
             <div class="mt-4 text-sm">
                 <FormattedDate date={publishDate} />
-                {
-                    updatedDate && (
-                        <>
-                            {' '}
-                            <span>
-                                (Updated on <FormattedDate date={updatedDate} />)
-                            </span>
-                        </>
-                    )
-                }
             </div>
         </header>
         <div class="max-w-none prose prose-dante sm:prose-lg">
