@@ -3,28 +3,29 @@ import type { GetStaticPathsOptions, Page } from 'astro';
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Pagination from '../../components/Pagination.astro';
-import ProjectPreview from '../../components/ProjectPreview.astro';
+import PostPreview from '../../components/PostPreview.astro';
 import siteConfig from '../../data/site-config';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-    const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
-    return paginate(projects, { pageSize: siteConfig.projectsPerPage || 6 });
+    const posts = (await getCollection('devlogs')).sort(sortItemsByDateDesc);
+    return paginate(posts, { pageSize: siteConfig.postsPerPage || 4 });
 }
 
-type Props = { page: Page<CollectionEntry<'projects'>> };
+type Props = { page: Page<CollectionEntry<'devlogs'>> };
 
 const { page } = Astro.props;
-const portfolio = page.data;
+const blog = page.data;
 ---
 
 <BaseLayout
-    title="Portfolio"
-    description="Explore a diverse portfolio showcasing my passion and expertise"
+    title="DevLog"
+    description="Embark on a journey of personal insights and experiences through my blog"
     image={{ src: '/dante-preview.jpg', alt: 'The preview of the site' }}
     showHeader={false}
 >
-    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">Projects</h1>
-    {portfolio.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
+    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">DevLogs</h1>
+    {blog.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
     <Pagination page={page} class="my-16 sm:my-24" />
+    <!-- <Subscribe class="my-16 sm:my-24" /> -->
 </BaseLayout>

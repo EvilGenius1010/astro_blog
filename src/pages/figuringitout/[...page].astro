@@ -1,0 +1,29 @@
+---
+import type { GetStaticPathsOptions, Page } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
+import siteConfig from '../../data/site-config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DeepDivePreview from '../../components/DeepdivePreview.astro';
+import Pagination from '../../components/Pagination.astro';
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+    const deepdives = (await getCollection('figuringitout')).sort(sortItemsByDateDesc);
+    return paginate(deepdives, { pageSize: siteConfig.deepdivesPerPage || 4 });
+}
+
+type Props = { page: Page<CollectionEntry<'figuringitout'>> };
+
+const { page } = Astro.props;
+const deepdive = page.data;
+// console.log(deepdive);
+---
+
+<!-- <BaseLayout title="Deepdives" image={{ src: '/dante-preview.jpg', alt: 'The preview of the site' }} showHeader={false}>
+    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">Deepdives</h1>
+    {deepdive.map((item) => <DeepDivePreview deepdive={item} />)}
+    <Pagination page={page} />
+</BaseLayout> -->
+<BaseLayout>
+    <h1 class="sm:text-5xl font-serif sm:mt-24 sm:ml-60 text-6xl mx-auto mt-48">Coming Soon!</h1>
+</BaseLayout>
